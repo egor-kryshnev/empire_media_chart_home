@@ -6,7 +6,8 @@ export const theme = createTheme({
             display: "grid",
             gridTemplateColumns: "95%",
             height: "100%",
-            justifyItems: "center"
+            justifyItems: "center",
+            rowGap: "1em"
         }
     },
     header: {

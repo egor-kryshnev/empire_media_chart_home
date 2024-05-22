@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, useRoutes } from 'react-router-dom';
 import Home from './components/Home/Home';
 import { CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material';
 import { theme } from "./theme/Theme"
@@ -8,21 +8,36 @@ import { initStocksActionCreator } from "./store/actions/stocksActions/stocksAct
 import { useDispatch } from 'react-redux';
 
 export const RouteNames = {
-  Home: "/"
+  Home: "/home",
+  History: "/history"
 }
 
-const Routess = () => {
+const Routes = () => {
+  const routes = useRoutes([
+    {
+      path: RouteNames.Home,
+      element: <Home />
+    },
+    {
+      path: RouteNames.History,
+      element: <Home />
+    },
+    {
+      path: "*",
+      element: <Navigate to={RouteNames.Home} replace />
+    }
+  ])
+
+  return routes;
+}
+
+const AppRouter = () => {
+
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path={`${RouteNames.Home}`} element={<Home />}/>
-          <Route
-            path="*"
-            element={<Navigate to="/" replace />}
-          />
-        </Routes>
-      </BrowserRouter>
+      <Router>
+        <Routes />
+      </Router>
     </>
   )
 }
@@ -42,7 +57,7 @@ function App() {
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-            <Routess />
+          <AppRouter />
         </ThemeProvider>
       </StyledEngineProvider>
     </>
